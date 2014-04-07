@@ -1,0 +1,139 @@
+<!-- index.html -->
+<!doctype html>
+
+<!-- ASSIGN ANGULAR MODULE -->
+<html ng-app="adBall">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+	<title>Such foosball!</title>
+
+	<!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+	
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/css/foosball.css">
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script><!-- load angular -->
+	<script src="core.js"></script>
+
+</head>
+<!-- SET THE CONTROLLER AND GET ALL MATCHES -->
+<body ng-controller="mainController">
+	<div class="container">
+
+		<div class="row">
+			<div class="col-sm-8">
+				<h1>Glorious leaders</h1>
+				<div class="row">
+					<div class="col-xs-4">
+						<div class="podium first">
+							<h1>1</h1>
+							<p>Ole</p>
+						</div>
+					</div>
+					<div class="col-xs-4">
+						<div class="podium second">
+							<h1>2</h1>
+							<p>Even</p>
+						</div>
+					</div>
+					<div class="col-xs-4">
+						<div class="podium third">
+							<h1>3</h1>
+							<p>Lucas</p>
+						</div>					
+					</div>										
+				</div>
+			</div>
+			<div class="col-sm-4" id="match-form">
+				<h1>New game</h1>
+				<form>
+					<div class="form-group" ng-controller="ClickToEditCtrl">
+						<div ng-hide="editorEnabled">
+							<select name="winner" class="form-control" ng-model="formData.winner">
+								<option value="">Winner</option>
+								<option ng-repeat="player in players" value="{{ player._id }}">{{ player._id }}</option>
+							</select>
+							<a href="#" ng-click="enableEditor()">Add new player</a>
+						</div>
+						<div ng-show="editorEnabled">
+							<input type="text" class="form-control input-lg text-center" placeholder="New player name" ng-model="formData.winner">
+						</div>
+					</div>
+					<div class="form-group" ng-controller="ClickToEditCtrl">
+						<div ng-hide="editorEnabled">
+							<select name="loser" class="form-control" ng-model="formData.loser">
+								<option value="">Loser</option>
+								<option ng-repeat="player in players" value="{{ player._id }}">{{ player._id }}</option>
+							</select>
+							<a href="#" ng-click="enableEditor()">Add new player</a>
+						</div>
+						<div ng-show="editorEnabled">
+							<input type="text" class="form-control input-lg text-center" placeholder="New player name" ng-model="formData.loser">
+						</div>
+					</div>				
+
+					<!-- createMatch() WILL CREATE NEW MATCH -->
+					<button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="createMatch()">Add</button>
+				</form>				
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-8" id="match_feed">
+				<h1>Feed</h1>
+				<div class="panel panel-default" ng-repeat="match in matches">
+					<div class="panel-heading">{{ match.when_pretty }}</div>
+					<div class="panel-body">
+						{{ match.winner }} won over {{ match.loser }}
+					</div>
+				</div>				
+			</div>
+			<div class="col-lg-4">
+				<h1>Stats</h1>
+
+				<table class="table table-striped table-hover">
+				  <thead>
+				    <tr>
+				      <th>#</th>
+				      <th>Player</th>
+				      <th>W</th>
+				      <th>L</th>
+				      <th>R</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr ng-repeat="player in players">
+				      <td>{{ $index+1 }}</td>
+				      <td>{{ player._id }}</td>
+				      <td>{{ player.wins }}</td>
+				      <td>{{ player.losses }}</td>
+				      <td>{{ player.rating }}</td>
+				    </tr>
+				  </tbody>
+				</table>			
+
+				<ul class="list-group">
+					<li class="list-group-item">
+						<span class="badge">{{ matches.length }}</span>
+						Total matches
+					</li>
+					<li class="list-group-item">
+						<span class="badge">{{ players.length }}</span>
+						Registered players
+					</li>
+				</ul>	
+			
+				
+			</div>
+		</div>
+
+
+
+
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "name": "foosball",
+  "version": "0.0.1",
+  "description": "Foosball ranking system",
+  "main": "server.js",
+  "dependencies": {
+    "async": "~0.6.2",
+    "express": "~3.5.1",
+    "moment": "~2.5.1",
+    "mongoose": "~3.8.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ofaltins/adball.git"
+  },
+  "author": "Ole Faltinsen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ofaltins/adball/issues"
+  },
+  "homepage": "https://github.com/ofaltins/adball"
+}
