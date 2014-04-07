@@ -1,23 +1,6 @@
 // public/core.js
 var adBall = angular.module('adBall', []);
 
-
-function ClickToEditCtrl($scope) {
-  $scope.editorEnabled = false;
-
-  $scope.enableEditor = function() {
-    $scope.editorEnabled = true;
-  };
-
-  $scope.disableEditor = function() {
-    $scope.editorEnabled = false;
-  };
-
-  $scope.save = function() {
-    $scope.disableEditor();
-  };
-}
-
 function mainController($scope, $http) {
 	$scope.formData = {};
 
@@ -44,6 +27,7 @@ function mainController($scope, $http) {
 
 	// when submitting the add form, send the text to the node API
 	$scope.createMatch = function() {
+		
 		$http.post('/api/matches', $scope.formData)
 			.success(function(data) {
 				$scope.formData = {}; // clear the form so our user is ready to enter another

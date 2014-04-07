@@ -50,33 +50,33 @@
 			<div class="col-sm-4" id="match-form">
 				<h1>New game</h1>
 				<form>
-					<div class="form-group" ng-controller="ClickToEditCtrl">
-						<div ng-hide="editorEnabled">
+					<div class="form-group">
+						<div ng-hide="winnerIsEditable">
 							<select name="winner" class="form-control" ng-model="formData.winner">
 								<option value="">Winner</option>
 								<option ng-repeat="player in players" value="{{ player._id }}">{{ player._id }}</option>
 							</select>
-							<a href="#" ng-click="enableEditor()">Add new player</a>
+							<a href="#" ng-click="winnerIsEditable=!winnerIsEditable">Add new player</a>
 						</div>
-						<div ng-show="editorEnabled">
+						<div ng-show="winnerIsEditable">
 							<input type="text" class="form-control input-lg text-center" placeholder="New player name" ng-model="formData.winner">
 						</div>
 					</div>
-					<div class="form-group" ng-controller="ClickToEditCtrl">
-						<div ng-hide="editorEnabled">
+					<div class="form-group">
+						<div ng-hide="looserIsEditable">
 							<select name="loser" class="form-control" ng-model="formData.loser">
 								<option value="">Loser</option>
 								<option ng-repeat="player in players" value="{{ player._id }}">{{ player._id }}</option>
 							</select>
-							<a href="#" ng-click="enableEditor()">Add new player</a>
+							<a href="#" ng-click="looserIsEditable=!looserIsEditable">Add new player</a>
 						</div>
-						<div ng-show="editorEnabled">
+						<div ng-show="looserIsEditable">
 							<input type="text" class="form-control input-lg text-center" placeholder="New player name" ng-model="formData.loser">
 						</div>
 					</div>				
 
 					<!-- createMatch() WILL CREATE NEW MATCH -->
-					<button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="createMatch()">Add</button>
+					<button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="createMatch();winnerIsEditable=undefined;looserIsEditable=undefined">Add</button>
 				</form>				
 			</div>
 		</div>
