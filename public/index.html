@@ -104,7 +104,7 @@
 				    </tr>
 				  </thead>
 				  <tbody>
-				    <tr ng-repeat="player in players">
+				    <tr ng-repeat="player in players | orderBy:'wins':true">
 				      <td>{{ $index+1 }}</td>
 				      <td>{{ player._id }}</td>
 				      <td>{{ player.wins }}</td>
