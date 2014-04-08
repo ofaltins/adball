@@ -81,16 +81,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-lg-8" id="match_feed">
-				<h1>Feed</h1>
-				<div class="panel panel-default" ng-repeat="match in matches">
-					<div class="panel-heading">{{ match.when_pretty }}</div>
-					<div class="panel-body">
-						{{ match.winner }} won over {{ match.loser }}
-					</div>
-				</div>				
-			</div>
-			<div class="col-lg-4">
+			<div class="col-sm-4 col-sm-push-8">
 				<h1>Stats</h1>
 
 				<table class="table table-striped table-hover">
@@ -127,6 +118,17 @@
 			
 				
 			</div>
+			
+			<div class="col-sm-8 col-sm-pull-4" id="match_feed">
+				<h1>Feed</h1>
+				<div class="panel panel-default" ng-repeat="match in matches">
+					<div class="panel-heading">{{ match.when_pretty }}</div>
+					<div class="panel-body">
+						{{ match.winner }} won over {{ match.loser }}
+					</div>
+				</div>				
+			</div>			
+			
 		</div>
 
 
