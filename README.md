@@ -6,14 +6,14 @@ Foosball ranking system
 http://adball.herokuapp.com/
 
 
-TO-DO:
+to do:
 ======
-* Add ranking algorithms:
-* * Kim Jung-Un
-* * Glicko2
-* * ELO
-* * Custom?
+Add ranking algorithms:
+* Kim Jung-Un
+* Glicko2
+* ELO
+* Custom?
 
-* Add separate users table
+Add separate users table
 
-* Add sockets.io
+Add sockets.io
