@@ -5,10 +5,16 @@ module.exports = function(cb) {
 	console.log('players module running');
 	var players 			= [],
 		player_prototype	= {},
-		winner_found 		= undefined,
-		loser_found			= undefined;
+		winner_found,
+		loser_found,
+		winner_index,
+		loser_index;
+		
+	// ELO specific vars
+	var win_expectancy,
+		K = 32;
 	
-	Foosball.find({}).sort({when: -1}).exec(
+	Foosball.find({}).sort({when: 'asc'}).exec(
 	function(err, matches) {
 
 		if (err) {
@@ -16,9 +22,7 @@ module.exports = function(cb) {
 		}	
 
 		async.each(matches, function(match, callback){
-		
-			console.log('async loop running');
-		
+				
 			player_prototype 	= {},
 			winner_found		= undefined,
 			loser_found			= undefined;
@@ -27,13 +31,14 @@ module.exports = function(cb) {
 			
 				if (players[index]._id === match.winner) {
 					players[index].wins++;
-					players[index].rating = (players[index].wins / players[index].losses).toFixed(2);
+					winner_index = index;
 					winner_found = true;
 					
 				}
 				if (players[index]._id === match.loser) {
 					players[index].losses++;
-					players[index].rating = (players[index].wins / players[index].losses).toFixed(2);					
+					loser_index = index;
+					// players[index].rating = (players[index].wins / players[index].losses).toFixed(2);					
 					loser_found = true;
 				}
 			}
@@ -43,8 +48,8 @@ module.exports = function(cb) {
 				player_prototype._id	= match.winner;
 				player_prototype.wins	= 1;
 				player_prototype.losses	= 0;
-				player_prototype.rating	= 0;
-				players.push(player_prototype);
+				player_prototype.rating	= 1600; // ELO says new players start at 1600
+				winner_index			= players.push(player_prototype) - 1;
 			}
 			
 			if ( !loser_found ) {
@@ -52,10 +57,23 @@ module.exports = function(cb) {
 				player_prototype._id	= match.loser;
 				player_prototype.wins	= 0;
 				player_prototype.losses	= 1;
-				player_prototype.rating	= 0;				
-				players.push(player_prototype);					
+				player_prototype.rating	= 1600;	// ELO says new players start at 1600			
+				loser_index				= players.push(player_prototype) - 1;
 			}
-				
+			
+			
+			// ranking of winner
+			console.log('old winner rating: ' + players[winner_index].rating);
+			win_expectancy = 0;
+			win_expectancy = (1/(Math.pow(10,(players[loser_index].rating - players[winner_index].rating)/400)+1));			
+			players[winner_index].rating = Math.floor(players[winner_index].rating + (K * (1 - win_expectancy)));
+			console.log('winner: ' + players[winner_index]._id + ' loser: ' + players[loser_index]._id);
+			console.log('new winner rating: ' + players[winner_index].rating + ' + (' + K + '(1 - ' + win_expectancy + '))');
+			
+			// ranking of loser
+			win_expectancy = 0;
+			win_expectancy = (1/(Math.pow(10,(players[winner_index].rating - players[loser_index].rating)/400)+1));
+			players[loser_index].rating = Math.floor(players[loser_index].rating + (K * (1 - win_expectancy)));
 				
 			callback();
 		}, function (err) {
