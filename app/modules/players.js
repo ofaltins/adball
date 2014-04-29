@@ -12,7 +12,7 @@ module.exports = function(cb) {
 		
 	// ELO specific vars
 	var win_expectancy,
-		K = 32;
+		K = 24;
 	
 	Foosball.find({}).sort({when: 'asc'}).exec(
 	function(err, matches) {
@@ -63,17 +63,26 @@ module.exports = function(cb) {
 			
 			
 			// ranking of winner
-			console.log('old winner rating: ' + players[winner_index].rating);
+		
 			win_expectancy = 0;
-			win_expectancy = (1/(Math.pow(10,(players[loser_index].rating - players[winner_index].rating)/400)+1));			
-			players[winner_index].rating = Math.floor(players[winner_index].rating + (K * (1 - win_expectancy)));
+			win_expectancy = (1/(Math.pow(10,(players[loser_index].rating - players[winner_index].rating)/400)+1));	
+			
 			console.log('winner: ' + players[winner_index]._id + ' loser: ' + players[loser_index]._id);
+			console.log('old winner rating: ' + players[winner_index].rating);
 			console.log('new winner rating: ' + players[winner_index].rating + ' + (' + K + '(1 - ' + win_expectancy + '))');
+
+			players[winner_index].rating = Math.floor(players[winner_index].rating + (K * (1 - win_expectancy)));
+
 			
 			// ranking of loser
+			
 			win_expectancy = 0;
 			win_expectancy = (1/(Math.pow(10,(players[winner_index].rating - players[loser_index].rating)/400)+1));
-			players[loser_index].rating = Math.floor(players[loser_index].rating + (K * (1 - win_expectancy)));
+			
+			console.log('old loser rating: ' + players[loser_index].rating);
+			console.log('new loser rating: ' + players[loser_index].rating + ' + (' + K + '(1 - ' + win_expectancy + '))');
+			
+			players[loser_index].rating = Math.floor(players[loser_index].rating + (K * (0 - win_expectancy)));
 				
 			callback();
 		}, function (err) {
