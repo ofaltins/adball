@@ -3,6 +3,7 @@ var async = require('async');
 module.exports = function(cb) {
 
 	console.log('players module running');
+	
 	var players 			= [],
 		player_prototype	= {},
 		winner_found,
@@ -13,6 +14,21 @@ module.exports = function(cb) {
 	// ELO specific vars
 	var win_expectancy,
 		K = 24;
+		
+	// array sorting
+	var sort_by = function(field, reverse, primer){
+	
+	   var key = primer ? 
+	       function(x) {return primer(x[field])} : 
+	       function(x) {return x[field]};
+	
+	   reverse = [-1, 1][+!!reverse];
+	
+	   return function (a, b) {
+	       return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+	     } 
+	
+	}
 	
 	Foosball.find({}).sort({when: 'asc'}).exec(
 	function(err, matches) {
@@ -66,11 +82,6 @@ module.exports = function(cb) {
 		
 			win_expectancy = 0;
 			win_expectancy = (1/(Math.pow(10,(players[loser_index].rating - players[winner_index].rating)/400)+1));	
-			
-			console.log('winner: ' + players[winner_index]._id + ' loser: ' + players[loser_index]._id);
-			console.log('old winner rating: ' + players[winner_index].rating);
-			console.log('new winner rating: ' + players[winner_index].rating + ' + (' + K + '(1 - ' + win_expectancy + '))');
-
 			players[winner_index].rating = Math.floor(players[winner_index].rating + (K * (1 - win_expectancy)));
 
 			
@@ -78,11 +89,9 @@ module.exports = function(cb) {
 			
 			win_expectancy = 0;
 			win_expectancy = (1/(Math.pow(10,(players[winner_index].rating - players[loser_index].rating)/400)+1));
-			
-			console.log('old loser rating: ' + players[loser_index].rating);
-			console.log('new loser rating: ' + players[loser_index].rating + ' + (' + K + '(1 - ' + win_expectancy + '))');
-			
 			players[loser_index].rating = Math.floor(players[loser_index].rating + (K * (0 - win_expectancy)));
+			
+			players.sort(sort_by('rating', true, parseInt));
 				
 			callback();
 		}, function (err) {
