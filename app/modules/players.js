@@ -1,10 +1,14 @@
 var Foosball = require('../models/foosball');
 var async = require('async');
+var moment = require('moment');
 module.exports = function(cb) {
 
 	console.log('players module running');
 	
-	var players 			= [],
+	var returndata			= {},
+		processed_matches	= [],
+		match_prototype		= {},
+		players 			= [],
 		player_prototype	= {},
 		winner_found,
 		loser_found,
@@ -15,7 +19,7 @@ module.exports = function(cb) {
 	var win_expectancy,
 		K = 24;
 	
-	Foosball.find({}).sort({when: 'asc'}).exec(
+	Foosball.find({}).sort({when: 'desc'}).exec(
 	function(err, matches) {
 
 		if (err) {
@@ -39,7 +43,6 @@ module.exports = function(cb) {
 				if (players[index]._id === match.loser) {
 					players[index].losses++;
 					loser_index = index;
-					// players[index].rating = (players[index].wins / players[index].losses).toFixed(2);					
 					loser_found = true;
 				}
 			}
@@ -63,6 +66,13 @@ module.exports = function(cb) {
 			}
 			
 			
+			match_prototype						= {};
+			match_prototype.when_pretty 		= moment(match.when).fromNow();
+			match_prototype.winner 				= match.winner;
+			match_prototype.winner_oldrating	= players[winner_index].rating;
+			match_prototype.loser 				= match.loser;
+			match_prototype.loser_oldrating		= players[loser_index].rating;
+			
 			// ranking of winner
 		
 			win_expectancy = 0;
@@ -75,12 +85,17 @@ module.exports = function(cb) {
 			win_expectancy = 0;
 			win_expectancy = (1/(Math.pow(10,(players[winner_index].rating - players[loser_index].rating)/400)+1));
 			players[loser_index].rating = Math.floor(players[loser_index].rating + (K * (0 - win_expectancy)));
+			
+			match_prototype.winner_newrating	= players[winner_index].rating;
+			match_prototype.loser_newrating 	= players[loser_index].rating;
+			
+			processed_matches.push(match_prototype);
 				
 			callback();
 		}, function (err) {
-		
-			console.log(players);
-			cb(err, players);
+			returndata.players = players;
+			returndata.matches = processed_matches;
+			cb(err, returndata);
 			
 		});	
 		

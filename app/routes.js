@@ -8,20 +8,8 @@ var moment 	 = require('moment');
 module.exports = function(app) {
 
 	// api ---------------------------------------------------------------------
-	// get all matches
-	app.get('/api/matches', function(req, res) {
 
-		require('./modules/matches')(function (err, matches) {
-			if (err) {
-				res.send(err);
-			} else {
-				res.json(matches);
-			}
-		});
-
-	});
-
-	// get all players
+	// get all players and matches
 	app.get('/api/players', function(req, res) {
 
 		require('./modules/players')(function (err, players) {
@@ -47,12 +35,12 @@ module.exports = function(app) {
 				res.send(err);
 			}
 
-			// get and return all the matches after match created
-			require('./modules/matches')(function (err, matches) {
+			// get and return all the players and matches after match created
+			require('./modules/players')(function (err, players) {
 				if (err) {
 					res.send(err);
 				} else {
-					res.json(matches);
+					res.json(players);
 				}
 			});
 					
