@@ -27,27 +27,13 @@
 			<div class="col-sm-8">
 				<h1>Glorious leaders</h1>
 				<div class="row">
-					<div class="col-xs-4">
+					<div class="col-xs-4" ng-repeat="player in players | orderBy:'rating':true | limitTo:3">
 						<div class="podium">
-							<img src="assets/img/first.jpg" alt="..." class="img-circle img-responsive">
-							<h1>1</h1>
-							<p>Ole</p>
+							<img src="assets/img/{{ $index+1}}.jpg" alt="..." class="img-circle img-responsive">
+							<h1>{{ $index+1 }}</h1>
+							<p>{{ player._id }}</p>
 						</div>
 					</div>
-					<div class="col-xs-4">
-						<div class="podium">
-							<img src="assets/img/second.jpg" alt="..." class="img-circle img-responsive">
-							<h1>2</h1>
-							<p>Even</p>
-						</div>
-					</div>
-					<div class="col-xs-4">
-						<div class="podium">
-							<img src="assets/img/third.jpg" alt="..." class="img-circle img-responsive">
-							<h1>3</h1>
-							<p>Lucas</p>
-						</div>					
-					</div>										
 				</div>
 			</div>
 			<div class="col-sm-4" id="match-form">
