@@ -14,21 +14,6 @@ module.exports = function(cb) {
 	// ELO specific vars
 	var win_expectancy,
 		K = 24;
-		
-	// array sorting
-	var sort_by = function(field, reverse, primer){
-	
-	   var key = primer ? 
-	       function(x) {return primer(x[field])} : 
-	       function(x) {return x[field]};
-	
-	   reverse = [-1, 1][+!!reverse];
-	
-	   return function (a, b) {
-	       return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
-	     } 
-	
-	}
 	
 	Foosball.find({}).sort({when: 'asc'}).exec(
 	function(err, matches) {
@@ -90,13 +75,13 @@ module.exports = function(cb) {
 			win_expectancy = 0;
 			win_expectancy = (1/(Math.pow(10,(players[winner_index].rating - players[loser_index].rating)/400)+1));
 			players[loser_index].rating = Math.floor(players[loser_index].rating + (K * (0 - win_expectancy)));
-			
-			players.sort(sort_by('rating', true, parseInt));
 				
 			callback();
 		}, function (err) {
+		
+			console.log(players);
 			cb(err, players);
-			//console.log(players);
+			
 		});	
 		
 	});
