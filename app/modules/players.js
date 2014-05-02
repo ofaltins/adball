@@ -77,14 +77,14 @@ module.exports = function(cb) {
 		
 			win_expectancy = 0;
 			win_expectancy = (1/(Math.pow(10,(players[loser_index].rating - players[winner_index].rating)/400)+1));	
-			players[winner_index].rating = Math.floor(players[winner_index].rating + (K * (1 - win_expectancy)));
+			players[winner_index].rating = Math.round(players[winner_index].rating + (K * (1 - win_expectancy)));
 
 			
 			// ranking of loser
 			
 			win_expectancy = 0;
 			win_expectancy = (1/(Math.pow(10,(players[winner_index].rating - players[loser_index].rating)/400)+1));
-			players[loser_index].rating = Math.floor(players[loser_index].rating + (K * (0 - win_expectancy)));
+			players[loser_index].rating = Math.round(players[loser_index].rating + (K * (0 - win_expectancy)));
 			
 			match_prototype.winner_newrating	= players[winner_index].rating;
 			match_prototype.loser_newrating 	= players[loser_index].rating;
