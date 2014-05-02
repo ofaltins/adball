@@ -4,6 +4,11 @@ var async 	 = require('async');
 var moment 	 = require('moment');
 
 
+//Foosball.remove({}, function(err) { 
+//	console.log('collection removed') 
+//});	
+
+
 // expose the routes to app
 module.exports = function(app) {
 

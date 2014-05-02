@@ -16,12 +16,7 @@
 		app.use(express.logger('dev')); 					// log every request to the console
 		app.use(express.bodyParser()); 						// pull information from html in POST
 		app.use(express.methodOverride()); 					// simulate DELETE and PUT
-	});
-	
-	
-	//Foosball.remove({}, function(err) { 
-	//	console.log('collection removed') 
-	//});		 	
+	});	 	
 		
 	// routes ======================================================================
 	require('./app/routes')(app);
