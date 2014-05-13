@@ -53,6 +53,8 @@ module.exports = function(cb) {
 				player_prototype.wins	= 1;
 				player_prototype.losses	= 0;
 				player_prototype.rating	= 1600; // ELO says new players start at 1600
+				player_prototype.highest= 1600;
+				player_prototype.lowest	= 1600;
 				winner_index			= players.push(player_prototype) - 1;
 			}
 			
@@ -61,7 +63,9 @@ module.exports = function(cb) {
 				player_prototype._id	= match.loser;
 				player_prototype.wins	= 0;
 				player_prototype.losses	= 1;
-				player_prototype.rating	= 1600;	// ELO says new players start at 1600			
+				player_prototype.rating	= 1600;	// ELO says new players start at 1600
+				player_prototype.highest= 1600;
+				player_prototype.lowest	= 1600;					
 				loser_index				= players.push(player_prototype) - 1;
 			}
 			
@@ -89,6 +93,24 @@ module.exports = function(cb) {
 			
 			match_prototype.winner_newrating	= players[winner_index].rating;
 			match_prototype.loser_newrating 	= players[loser_index].rating;
+			
+			if (players[winner_index].rating > players[winner_index].highest){
+				players[winner_index].highest = players[winner_index].rating;
+			}
+			
+			
+			if (players[winner_index].rating < players[winner_index].lowest){
+				players[winner_index].lowest = players[winner_index].rating;
+			}
+			
+			if (players[loser_index].rating > players[loser_index].highest){
+				players[loser_index].highest = players[loser_index].rating;
+			}
+			
+			
+			if (players[loser_index].rating < players[loser_index].lowest){
+				players[loser_index].lowest = players[loser_index].rating;
+			}			
 			
 			processed_matches.push(match_prototype);
 				
