@@ -9,6 +9,7 @@ function mainController($scope, $http) {
 		.success(function(data) {
 			$scope.matches = data.matches
 			$scope.players = data.players;
+			console.log(data.matches);
 			
 		})
 		.error(function(data) {

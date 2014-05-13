@@ -110,7 +110,7 @@
 			
 			<div class="col-sm-8 col-sm-pull-4" id="match_feed">
 				<h1>Feed</h1>
-				<div class="panel panel-default" ng-repeat="match in matches">
+				<div class="panel panel-default" ng-repeat="match in matches | orderBy:'when':true">
 					<div class="panel-heading">{{ match.winner }} won over {{ match.loser }} <span class="pull-right">{{ match.when_pretty }}</span></div>
 					<div class="panel-body">
 						{{ match.winner }} won the game and improved his rating from {{ match.winner_oldrating }} to {{ match.winner_newrating}}. <br>{{ match.loser }} lost, decreasing his rating from {{ match.loser_oldrating }} to {{ match.loser_newrating}}.

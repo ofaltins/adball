@@ -19,7 +19,7 @@ module.exports = function(cb) {
 	var win_expectancy,
 		K = 24;
 	
-	Foosball.find({}).sort({when: 'desc'}).exec(
+	Foosball.find({}).sort({when: 'asc'}).exec(
 	function(err, matches) {
 
 		if (err) {
@@ -67,6 +67,7 @@ module.exports = function(cb) {
 			
 			
 			match_prototype						= {};
+			match_prototype.when				= match.when;
 			match_prototype.when_pretty 		= moment(match.when).fromNow();
 			match_prototype.winner 				= match.winner;
 			match_prototype.winner_oldrating	= players[winner_index].rating;
