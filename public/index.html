@@ -10,7 +10,7 @@
 	<title>Such foosball!</title>
 
 	<!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
-	
+
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/css/foosball.css">
 
@@ -62,11 +62,11 @@
 						<div ng-show="looserIsEditable">
 							<input type="text" class="form-control input-lg text-center" placeholder="New player name" ng-model="formData.loser">
 						</div>
-					</div>				
+					</div>
 
 					<!-- createMatch() WILL CREATE NEW MATCH -->
 					<button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="createMatch();winnerIsEditable=undefined;looserIsEditable=undefined">Add</button>
-				</form>				
+				</form>
 			</div>
 		</div>
 		<div class="row">
@@ -90,11 +90,11 @@
 				      <td>{{ player._id }}</td>
 				      <td>{{ player.wins }}</td>
 				      <td>{{ player.losses }}</td>
-				      <td>{{ player.highest }} / {{ player.lowest }}</td>				      
-				      <td>{{ player.rating }}</td>
+				      <td>{{ player.highest | number:0 }} / {{ player.lowest | number:0 }}</td>
+				      <td>{{ player.rating | number:0 }}</td>
 				    </tr>
 				  </tbody>
-				</table>			
+				</table>
 
 				<ul class="list-group">
 					<li class="list-group-item">
@@ -105,21 +105,22 @@
 						<span class="badge">{{ players.length }}</span>
 						Registered players
 					</li>
-				</ul>	
-			
-				
+				</ul>
+
+
 			</div>
-			
+
 			<div class="col-sm-8 col-sm-pull-4" id="match_feed">
 				<h1>Feed</h1>
 				<div class="panel panel-default" ng-repeat="match in matches | orderBy:'when':true">
 					<div class="panel-heading">{{ match.winner }} won over {{ match.loser }} <span class="pull-right">{{ match.when_pretty }}</span></div>
 					<div class="panel-body">
-						{{ match.winner }} won the game and improved his rating from {{ match.winner_oldrating }} to {{ match.winner_newrating}}. <br>{{ match.loser }} lost, decreasing his rating from {{ match.loser_oldrating }} to {{ match.loser_newrating}}.
+						{{ match.winner }} won, gained {{ (match.winner_newrating)-(match.winner_oldrating) | number:0}} points, improving his rating from {{ match.winner_oldrating | number:0 }} to {{ match.winner_newrating | number:0 }}. <br>
+						{{ match.loser }} lost, lost {{ (match.loser_newrating)-(match.loser_oldrating) | number:0}} points, reducing his rating from {{ match.loser_oldrating | number:0 }} to {{ match.loser_newrating | number:0 }}.
 					</div>
-				</div>				
-			</div>			
-			
+				</div>
+			</div>
+
 		</div>
 
 
