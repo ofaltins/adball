@@ -10,6 +10,7 @@ module.exports = function(cb) {
 		match_prototype		= {},
 		players 			= [],
 		player_prototype	= {},
+		calculated_matches	= [],
 		winner_found,
 		loser_found,
 		winner_index,
@@ -116,9 +117,50 @@ module.exports = function(cb) {
 
 			callback();
 		}, function (err) {
-			returndata.players = players;
-			returndata.matches = processed_matches;
-			cb(err, returndata);
+
+			var o = 0;
+
+			for (var index_a in players) {
+
+				console.log('loop a, player: ' + index_a);
+
+				for (var index_b in players) {
+
+					console.log('loop b, player: ' + index_b);
+
+					if (players[index_a]._id != players[index_b]._id) {
+
+						match_prototype = {};
+						match_prototype.winner = players[index_a]._id;
+						match_prototype.loser = players[index_b]._id;
+
+						// estimated ranking of winner
+						win_expectancy = 0;
+						win_expectancy = (1/(Math.pow(10,(players[index_b].rating - players[index_a].rating)/400)+1));
+						match_prototype.winner_rating = players[index_a].rating + (K * (1 - win_expectancy));
+
+						// estimated ranking of loser
+
+						win_expectancy = 0;
+						win_expectancy = (1/(Math.pow(10,(players[index_a].rating - players[index_b].rating)/400)+1));
+						match_prototype.loser_rating = players[index_b].rating + (K * (0 - win_expectancy));
+
+						calculated_matches.push(match_prototype);
+
+					}
+				}
+
+				o++;
+
+				if (o == players.length) {
+
+					returndata.players = players;
+					returndata.matches = processed_matches;
+					returndata.calculated_matches = calculated_matches;
+					cb(err, returndata);
+
+				}
+			}
 
 		});
 

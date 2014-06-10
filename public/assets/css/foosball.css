@@ -13,3 +13,7 @@
 .podium p {
 	top: 80px;
 }
+
+#podium_row {
+	margin-bottom: 20px;
+}

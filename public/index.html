@@ -22,23 +22,27 @@
 <!-- SET THE CONTROLLER AND GET ALL MATCHES -->
 <body ng-controller="mainController">
 	<div class="container">
-
 		<div class="row">
-			<div class="col-sm-8">
+			<img src="assets/img/adball_logo.png" class="img-responsive" style="margin: 20px auto;">
+		</div>
+		<div class="row">
+			<div class="col-sm-12" id="podium_row">
 				<h1>Glorious leaders!</h1>
 				<div class="row">
 					<div class="col-xs-4" ng-repeat="player in players | orderBy:'rating':true | limitTo:3">
 						<div class="podium">
-							<img src="assets/img/{{ $index+1}}.jpg" alt="..." class="img-circle img-responsive">
+							<img src="assets/img/{{ $index+1 }}.jpg" alt="..." class="img-circle img-responsive">
 							<h1>{{ $index+1 }}</h1>
 							<p>{{ player._id }}</p>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-4">
-				<h1>New game</h1>
-				<form id="match-form">
+		</div>
+
+		<div class="row">
+			<form id="match-form">
+				<div class="col-sm-4">
 					<div class="form-group">
 						<div ng-hide="winnerIsEditable">
 							<select name="winner" class="form-control" ng-model="formData.winner">
@@ -50,7 +54,9 @@
 						<div ng-show="winnerIsEditable">
 							<input type="text" class="form-control input-lg text-center" placeholder="New player name" ng-model="formData.winner">
 						</div>
-					</div>
+					</div>				
+				</div>
+				<div class="col-sm-4">
 					<div class="form-group">
 						<div ng-hide="looserIsEditable">
 							<select name="loser" class="form-control" ng-model="formData.loser">
@@ -62,15 +68,18 @@
 						<div ng-show="looserIsEditable">
 							<input type="text" class="form-control input-lg text-center" placeholder="New player name" ng-model="formData.loser">
 						</div>
-					</div>
-
+					</div>				
+				</div>
+				<div class="col-sm-4">
 					<!-- createMatch() WILL CREATE NEW MATCH -->
-					<button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="createMatch();winnerIsEditable=undefined;looserIsEditable=undefined">Add</button>
-				</form>
-			</div>
+					<button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="createMatch();winnerIsEditable=undefined;looserIsEditable=undefined">Add</button>				
+				</div>
+			</form>
 		</div>
+
+
 		<div class="row">
-			<div class="col-sm-4 col-sm-push-8">
+			<div class="col-sm-6 col-sm-push-6">
 				<h1>Stats</h1>
 
 				<table class="table table-striped table-hover">
@@ -96,6 +105,22 @@
 				  </tbody>
 				</table>
 
+				<h1>What would happen if..</h1>
+				<table class="table table-striped table-hover">
+				  <thead>
+				    <tr>
+				      <th>Winner</th>
+				      <th>Loser</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr ng-repeat="calcmatch in calculated_matches">
+				      <td>{{ calcmatch.winner }} - {{ calcmatch.winner_rating | number:0 }}</td>
+				      <td>{{ calcmatch.loser }} - {{ calcmatch.loser_rating | number:0 }}</td>
+				    </tr>
+				  </tbody>
+				</table>				
+
 				<ul class="list-group">
 					<li class="list-group-item">
 						<span class="badge">{{ matches.length }}</span>
@@ -110,7 +135,7 @@
 
 			</div>
 
-			<div class="col-sm-8 col-sm-pull-4" id="match_feed">
+			<div class="col-sm-6 col-sm-pull-6" id="match_feed">
 				<h1>Feed</h1>
 				<div class="panel panel-default" ng-repeat="match in matches | orderBy:'when':true">
 					<div class="panel-heading">{{ match.winner }} won over {{ match.loser }} <span class="pull-right">{{ match.when_pretty }}</span></div>

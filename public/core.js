@@ -9,7 +9,8 @@ function mainController($scope, $http) {
 		.success(function(data) {
 			$scope.matches = data.matches
 			$scope.players = data.players;
-			console.log(data.matches);
+			$scope.calculated_matches = data.calculated_matches;
+			console.log(data.calculated_matches);
 			
 		})
 		.error(function(data) {
@@ -26,6 +27,7 @@ function mainController($scope, $http) {
 				$scope.formData = {}; // clear the form so our user is ready to enter another
 				$scope.matches = data.matches
 				$scope.players = data.players;
+				$scope.calculated_matches = data.calculated_matches;
 				console.log(data);
 			})
 			.error(function(data) {
