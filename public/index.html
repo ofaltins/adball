@@ -107,16 +107,27 @@
 
 				<h1>What would happen if..</h1>
 				<table class="table table-striped table-hover">
-				  <thead>
-				    <tr>
-				      <th>Winner</th>
-				      <th>Loser</th>
-				    </tr>
-				  </thead>
 				  <tbody>
 				    <tr ng-repeat="calcmatch in calculated_matches">
-				      <td>{{ calcmatch.winner }} - {{ calcmatch.winner_rating | number:0 }}</td>
-				      <td>{{ calcmatch.loser }} - {{ calcmatch.loser_rating | number:0 }}</td>
+				      <td>
+					      <strong>{{ calcmatch.winner }} </strong>
+					  </td>
+					  <td>
+					      ( {{ calcmatch.winner_oldrating | number:0 }} 
+					      +  {{ (calcmatch.winner_newrating)-(calcmatch.winner_oldrating) | number:0 }}
+					      = {{ calcmatch.winner_newrating | number:0  }} )
+					  </td>
+					  <td>
+					      <strong>wins over</strong>
+					  </td>
+				      <td>
+					      <strong>{{ calcmatch.loser }}</strong>
+					  </td>
+					  <td>
+					      ( {{ calcmatch.loser_oldrating | number:0 }} 
+					      {{ (calcmatch.loser_newrating)-(calcmatch.loser_oldrating) | number:0 }}
+					      = {{ calcmatch.loser_newrating | number:0  }} )
+					  </td>					  
 				    </tr>
 				  </tbody>
 				</table>				

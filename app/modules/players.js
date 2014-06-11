@@ -133,17 +133,18 @@ module.exports = function(cb) {
 						match_prototype = {};
 						match_prototype.winner = players[index_a]._id;
 						match_prototype.loser = players[index_b]._id;
+						match_prototype.winner_oldrating = players[index_a].rating;
+						match_prototype.loser_oldrating = players[index_b].rating;
 
 						// estimated ranking of winner
 						win_expectancy = 0;
 						win_expectancy = (1/(Math.pow(10,(players[index_b].rating - players[index_a].rating)/400)+1));
-						match_prototype.winner_rating = players[index_a].rating + (K * (1 - win_expectancy));
+						match_prototype.winner_newrating = players[index_a].rating + (K * (1 - win_expectancy));
 
 						// estimated ranking of loser
-
 						win_expectancy = 0;
-						win_expectancy = (1/(Math.pow(10,(players[index_a].rating - players[index_b].rating)/400)+1));
-						match_prototype.loser_rating = players[index_b].rating + (K * (0 - win_expectancy));
+						win_expectancy = (1/(Math.pow(10,(match_prototype.winner_newrating - players[index_b].rating)/400)+1));
+						match_prototype.loser_newrating = players[index_b].rating + (K * (0 - win_expectancy));
 
 						calculated_matches.push(match_prototype);
 
