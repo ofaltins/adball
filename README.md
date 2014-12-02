@@ -3,7 +3,7 @@ adball
 
 Foosball ranking system
 
-http://adball.herokuapp.com/
+http://adball.ole.nu/
 
 
 to do:
